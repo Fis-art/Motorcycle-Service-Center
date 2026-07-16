@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "db:setup": "node -e \"require('dotenv').config(); const c=require('mysql2/promise');(async()=>{const conn=await c.createConnection({host:process.env.DB_HOST||'localhost',user:process.env.DB_USER||'root',password:process.env.DB_PASSWORD||'',port:parseInt(process.env.DB_PORT,10)||3306});const fs=require('fs');const sql=fs.readFileSync('database/schema.sql','utf8');await conn.query(sql);console.log('Schema imported');await conn.end();})().catch(e=>{console.error(e.message);process.exit(1)})\"",
+    "db:seed": "node -e \"require('dotenv').config(); const c=require('mysql2/promise');(async()=>{const conn=await c.createConnection({host:process.env.DB_HOST||'localhost',user:process.env.DB_USER||'root',password:process.env.DB_PASSWORD||'',database:process.env.DB_NAME||'workshop_db',port:parseInt(process.env.DB_PORT,10)||3306});const fs=require('fs');const sql=fs.readFileSync('database/seeder.sql','utf8');await conn.query(sql);console.log('Seed data imported');await conn.end();})().catch(e=>{console.error(e.message);process.exit(1)})\""
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

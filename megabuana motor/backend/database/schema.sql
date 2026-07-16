@@ -1,12 +1,8 @@
--- Megabuana Motor - Database Schema
+-- Database Schema
 -- MySQL 8.0+ / MariaDB 10.3+
 -- Engine: InnoDB | Charset: utf8mb4 | Collation: utf8mb4_unicode_ci
-
-CREATE DATABASE IF NOT EXISTS `megabuana_motor`
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-
-USE `megabuana_motor`;
+--
+-- Import: mysql -u root -p < database/schema.sql
 
 -- -----------------------------------------------------------
 -- 1. users – Admin authentication

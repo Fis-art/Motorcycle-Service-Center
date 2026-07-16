@@ -1,7 +1,7 @@
--- Megabuana Motor - Seed Data
+-- Seed Data
 -- Run AFTER schema.sql
-
-USE `megabuana_motor`;
+--
+-- Import: mysql -u root -p < database/seeder.sql
 
 -- -----------------------------------------------------------
 -- Hero Slides

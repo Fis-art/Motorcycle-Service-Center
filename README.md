@@ -49,7 +49,8 @@ megabuana motor/
 │   ├── models/             # Akses data
 │   ├── routes/             # Definisi rute API
 │   ├── uploads/            # File hasil upload
-│   ├── .env                # Konfigurasi environment
+│   ├── .env                # Konfigurasi environment (jangan di-commit)
+│   ├── .env.example        # Template environment
 │   ├── app.js
 │   └── server.js
 └── frontend/               # Web app (React + Vite)
@@ -81,47 +82,51 @@ Port default:
    sudo systemctl start mariadb
    ```
 
-2. Masuk ke MySQL sebagai root.
+2. Buat file `.env` dari template.
 
    ```bash
-   mysql -u root -p
+   cd "megabuana motor/backend"
+   cp .env.example .env
    ```
 
-3. Buat database dan impor struktur tabel.
+3. Ubah isi `.env` sesuai kebutuhanmu — terutama `DB_NAME` (nama database), `DB_USER`, dan `DB_PASSWORD`.
+
+4. Import struktur tabel (database akan otomatis dibuat oleh server).
 
    ```bash
-   # Dari folder backend/
-   mysql -u root -p < database/schema.sql
+   npm run db:setup
    ```
 
-   Perintah di atas akan membuat database `megabuana_motor` (jika belum ada) beserta seluruh tabelnya.
-
-4. (Opsional) Isi data awal / contoh.
+5. (Opsional) Isi data awal / contoh.
 
    ```bash
-   mysql -u root -p megabuana_motor < database/seeder.sql
+   npm run db:seed
    ```
 
-> Jika menggunakan user/password MySQL selain `root`, sesuaikan pada langkah import dan pada file `.env` (lihat bagian berikut).
+> Server juga akan otomatis membuat database saat pertama kali dijalankan (`npm run dev` / `npm start`) jika database belum ada.
 
 ---
 
 ## Konfigurasi Environment (`.env`)
 
-Backend membaca konfigurasi dari file `backend/.env`. File ini sudah ada sebagai contoh; sesuaikan nilainya dengan environment kamu.
+Backend membaca konfigurasi dari file `backend/.env`. Buat dari template yang sudah ada:
 
-`backend/.env`
+```bash
+cp "megabuana motor/backend/.env.example" "megabuana motor/backend/.env"
+```
+
+Isi file `backend/.env`:
 
 ```env
 # Database
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=root
-DB_NAME=megabuana_motor
+DB_PASSWORD=your_password_here
+DB_NAME=workshop_db
 DB_PORT=3306
 
 # JWT (untuk autentikasi admin)
-JWT_SECRET=megabuana_motor_jwt_secret_key_2024
+JWT_SECRET=change_this_to_a_random_secret_string
 JWT_EXPIRES_IN=7d
 
 # Port server backend
@@ -135,13 +140,13 @@ Penjelasan variabel:
 | `DB_HOST` | Host MySQL (biasanya `localhost`) |
 | `DB_USER` | Username MySQL |
 | `DB_PASSWORD` | Password MySQL |
-| `DB_NAME` | Nama database (`megabuana_motor`) |
+| `DB_NAME` | Nama database (ubah sesuai keinginanmu) |
 | `DB_PORT` | Port MySQL (default `3306`) |
 | `JWT_SECRET` | Kunci rahasia untuk menandatangani token login |
 | `JWT_EXPIRES_IN` | Masa berlaku token (mis. `7d`) |
 | `PORT` | Port tempat backend dijalankan |
 
-> **Penting:** Jangan commit file `.env` berisi secret ke repository publik. File `.env` sudah termasuk dalam `.gitignore` backend.
+> **Penting:** Jangan commit file `.env` berisi secret ke repository publik. File `.env` sudah termasuk dalam `.gitignore`.
 
 Frontend **tidak memerlukan** file `.env` karena `baseURL: '/api'` diarahkan ke backend melalui proxy Vite (`vite.config.js`). Saat production, pastikan web server mem-proxy `/api` dan `/uploads` ke backend pada port `4001`.
 
@@ -241,7 +246,7 @@ Pastikan:
 **1. `Database connection failed`**
 - Pastikan MySQL berjalan (`sudo systemctl status mysql`).
 - Cek `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_PORT` di `backend/.env`.
-- Pastikan database `megabuana_motor` sudah dibuat (`schema.sql` sudah diimpor).
+- Jalankan `npm run db:setup` untuk import struktur tabel.
 
 **2. Endpoint API mengembalikan 404 / tidak terhubung dari frontend**
 - Pastikan backend berjalan di port `4001`.
