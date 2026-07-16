@@ -38,7 +38,7 @@ Pastikan perangkat sudah menginstal:
 ## Struktur Proyek
 
 ```
-megabuana motor/
+workshop/
 ├── backend/                 # REST API (Node.js + Express + MySQL)
 │   ├── config/database.js  # Koneksi pool MySQL
 │   ├── controllers/        # Logika bisnis tiap endpoint
@@ -85,7 +85,7 @@ Port default:
 2. Buat file `.env` dari template.
 
    ```bash
-   cd "megabuana motor/backend"
+   cd "workshop/backend"
    cp .env.example .env
    ```
 
@@ -112,7 +112,7 @@ Port default:
 Backend membaca konfigurasi dari file `backend/.env`. Buat dari template yang sudah ada:
 
 ```bash
-cp "megabuana motor/backend/.env.example" "megabuana motor/backend/.env"
+cp "workshop/backend/.env.example" "workshop/backend/.env"
 ```
 
 Isi file `backend/.env`:
@@ -157,7 +157,7 @@ Frontend **tidak memerlukan** file `.env` karena `baseURL: '/api'` diarahkan ke 
 Buka terminal di folder `backend`:
 
 ```bash
-cd "megabuana motor/backend"
+cd "workshop/backend"
 
 # 1. Install dependencies
 npm install
@@ -185,7 +185,7 @@ API dapat diakses di `http://localhost:4001`.
 Buka terminal baru di folder `frontend`:
 
 ```bash
-cd "megabuana motor/frontend"
+cd "workshop/frontend"
 
 # 1. Install dependencies
 npm install
@@ -215,7 +215,7 @@ Frontend akan berjalan di `http://localhost:5174`.
 ### Frontend (produksi)
 
 ```bash
-cd "megabuana motor/frontend"
+cd "workshop/frontend"
 npm run build
 ```
 
@@ -228,7 +228,7 @@ npm run preview
 ### Backend (produksi)
 
 ```bash
-cd "megabuana motor/backend"
+cd "workshop/backend"
 npm install --production
 npm start
 ```
