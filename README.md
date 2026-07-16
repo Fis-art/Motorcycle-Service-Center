@@ -1,9 +1,34 @@
-# Megabuana Motor
+# Workshop Management System
 
-Sistem informasi bengkel / workshop motor **Megabuana Motor** yang terdiri dari:
+Sistem informasi bengkel / workshop motor yang terdiri dari:
 
 - **Backend** — REST API berbasis Node.js (Express) + MySQL
 - **Frontend** — Aplikasi web React (Vite)
+
+---
+
+## Quick Start
+
+```bash
+# 1. Clone repo
+git clone https://github.com/username/repo-name.git
+cd repo-name
+
+# 2. Setup backend
+cd workshop/backend
+cp .env.example .env      # lalu isi sesuai kebutuhanmu
+npm install
+npm run db:setup           # import struktur tabel
+npm run db:seed            # (opsional) isi data contoh
+npm run dev                # jalankan backend
+
+# 3. Setup frontend (terminal baru)
+cd workshop/frontend
+npm install
+npm run dev                # jalankan frontend
+```
+
+Buka `http://localhost:5174` untuk melihat website.
 
 ---
 
@@ -12,11 +37,12 @@ Sistem informasi bengkel / workshop motor **Megabuana Motor** yang terdiri dari:
 - [Prasyarat](#prasyarat)
 - [Struktur Proyek](#struktur-proyek)
 - [Setup Database (MySQL)](#setup-database-mysql)
-- [Konfigurasi Environment (`.env`)](#konfigurasi-environment-env)
+- [Konfigurasi Environment (.env)](#konfigurasi-environment-env)
 - [Menjalankan Backend](#menjalankan-backend)
 - [Menjalankan Frontend](#menjalankan-frontend)
-- [Akses Aplikasi](#akses-aplikasi)
+- [Akses Aplikasi](#akses-applikasi)
 - [Build & Deployment](#build--deployment)
+- [Kustomisasi](#kustomisasi)
 - [Troubleshooting](#troubleshooting)
 
 ---
@@ -31,7 +57,7 @@ Pastikan perangkat sudah menginstal:
 | npm | v9+ | `npm -v` |
 | MySQL / MariaDB | MySQL 8.0+ / MariaDB 10.3+ | `mysql --version` |
 
-> Frontend menggunakan Vite dan React 18, backend menggunakan Express dengan `mysql2`.
+> Frontend menggunakan Vite + React 18, backend menggunakan Express + `mysql2`.
 
 ---
 
@@ -39,23 +65,23 @@ Pastikan perangkat sudah menginstal:
 
 ```
 workshop/
-├── backend/                 # REST API (Node.js + Express + MySQL)
-│   ├── config/database.js  # Koneksi pool MySQL
-│   ├── controllers/        # Logika bisnis tiap endpoint
+├── backend/                  # REST API (Node.js + Express + MySQL)
+│   ├── config/database.js   # Koneksi pool MySQL
+│   ├── controllers/         # Logika bisnis tiap endpoint
 │   ├── database/
-│   │   ├── schema.sql      # Struktur tabel
-│   │   └── seeder.sql      # Data awal (opsional)
-│   ├── middleware/         # Auth, upload, dll
-│   ├── models/             # Akses data
-│   ├── routes/             # Definisi rute API
-│   ├── uploads/            # File hasil upload
-│   ├── .env                # Konfigurasi environment (jangan di-commit)
-│   ├── .env.example        # Template environment
+│   │   ├── schema.sql       # Struktur tabel
+│   │   └── seeder.sql       # Data awal (opsional)
+│   ├── middleware/          # Auth, upload, dll
+│   ├── models/              # Akses data
+│   ├── routes/              # Definisi rute API
+│   ├── uploads/             # File hasil upload
+│   ├── .env                 # Konfigurasi environment (jangan di-commit)
+│   ├── .env.example         # Template environment
 │   ├── app.js
 │   └── server.js
-└── frontend/               # Web app (React + Vite)
+└── frontend/                # Web app (React + Vite)
     ├── src/
-    │   ├── config/api.js   # Instance axios (baseURL /api)
+    │   ├── config/api.js    # Instance axios (baseURL /api)
     │   ├── components/
     │   ├── pages/
     │   └── ...
@@ -85,11 +111,11 @@ Port default:
 2. Buat file `.env` dari template.
 
    ```bash
-   cd "workshop/backend"
+   cd workshop/backend
    cp .env.example .env
    ```
 
-3. Ubah isi `.env` sesuai kebutuhanmu — terutama `DB_NAME` (nama database), `DB_USER`, dan `DB_PASSWORD`.
+3. Ubah isi `.env` sesuai kebutuhanmu — terutama `DB_NAME`, `DB_USER`, dan `DB_PASSWORD`.
 
 4. Import struktur tabel (database akan otomatis dibuat oleh server).
 
@@ -107,12 +133,12 @@ Port default:
 
 ---
 
-## Konfigurasi Environment (`.env`)
+## Konfigurasi Environment (.env)
 
 Backend membaca konfigurasi dari file `backend/.env`. Buat dari template yang sudah ada:
 
 ```bash
-cp "workshop/backend/.env.example" "workshop/backend/.env"
+cp workshop/backend/.env.example workshop/backend/.env
 ```
 
 Isi file `backend/.env`:
@@ -157,7 +183,7 @@ Frontend **tidak memerlukan** file `.env` karena `baseURL: '/api'` diarahkan ke 
 Buka terminal di folder `backend`:
 
 ```bash
-cd "workshop/backend"
+cd workshop/backend
 
 # 1. Install dependencies
 npm install
@@ -185,7 +211,7 @@ API dapat diakses di `http://localhost:4001`.
 Buka terminal baru di folder `frontend`:
 
 ```bash
-cd "workshop/frontend"
+cd workshop/frontend
 
 # 1. Install dependencies
 npm install
@@ -208,6 +234,12 @@ Frontend akan berjalan di `http://localhost:5174`.
 | Panel admin | http://localhost:5174/admin/login |
 | Backend API | http://localhost:4001 |
 
+**Login admin default:**
+- Email: `admin@workshop.com`
+- Password: `admin123`
+
+> Ganti email dan password setelah login pertama kali.
+
 ---
 
 ## Build & Deployment
@@ -215,7 +247,7 @@ Frontend akan berjalan di `http://localhost:5174`.
 ### Frontend (produksi)
 
 ```bash
-cd "workshop/frontend"
+cd workshop/frontend
 npm run build
 ```
 
@@ -228,7 +260,7 @@ npm run preview
 ### Backend (produksi)
 
 ```bash
-cd "workshop/backend"
+cd workshop/backend
 npm install --production
 npm start
 ```
@@ -238,6 +270,30 @@ Pastikan:
 - File `.env` sudah diisi dengan nilai environment produksi.
 - Web server (Nginx/Caddy/Apache) mem-proxy `/api` dan `/uploads` ke `http://localhost:4001`.
 - Folder `backend/uploads/` memiliki izin tulis agar fitur upload berfungsi.
+
+---
+
+## Kustomisasi
+
+### Mengganti Nama Toko
+
+1. Ubah `DB_NAME` di `backend/.env` dengan nama database milikmu.
+2. Jalankan `npm run db:setup` untuk membuat database baru.
+3. Edit konten website melalui panel admin di `http://localhost:5174/admin/login`.
+
+### Mengubah Port
+
+Ubah variabel `PORT` di `backend/.env`. Untuk frontend, edit `vite.config.js`:
+
+```js
+server: {
+  port: 5174,  // ubah sesuai kebutuhan
+  proxy: {
+    '/api': 'http://localhost:4001',
+    '/uploads': 'http://localhost:4001'
+  }
+}
+```
 
 ---
 
@@ -264,8 +320,13 @@ Pastikan:
 
 ---
 
-## Catatan Tambahan
+## Tech Stack
 
-- Backend menggunakan `bcryptjs` untuk hash password, `jsonwebtoken` untuk autentikasi, dan `multer` untuk upload file.
-- Frontend menggunakan React Router untuk routing dan `styled-jsx` untuk styling.
-- Seluruh koneksi database menggunakan connection pool (`mysql2/promise`).
+| Komponen | Teknologi |
+|----------|-----------|
+| Backend | Node.js, Express, MySQL2 |
+| Frontend | React 18, Vite, React Router |
+| Auth | JWT (JSON Web Token) |
+| Styling | styled-jsx |
+| Upload | Multer |
+| Database | MySQL 8.0+ / MariaDB 10.3+ |
