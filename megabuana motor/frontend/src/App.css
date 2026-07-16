@@ -1,0 +1,9 @@
+@import './styles/variables.css';
+@import './styles/global.css';
+@import './styles/layout.css';
+@import './styles/admin.css';
+@import './styles/responsive.css';
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
