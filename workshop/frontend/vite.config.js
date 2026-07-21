@@ -10,10 +10,30 @@ export default defineConfig({
     }),
   ],
   server: {
+    host: '0.0.0.0',
     port: 5174,
+    strictPort: true,
+    allowedHosts: true,
+    hmr: {
+      host: 'localhost',
+      protocol: 'ws',
+    },
     proxy: {
-      '/api': 'http://localhost:4001',
-      '/uploads': 'http://localhost:4001'
-    }
-  }
+      '/api': {
+        target: 'http://localhost:4001',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/uploads': {
+        target: 'http://localhost:4001',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
+  preview: {
+    host: '0.0.0.0',
+    port: 5174,
+    allowedHosts: true,
+  },
 })

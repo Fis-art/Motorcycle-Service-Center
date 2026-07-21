@@ -184,9 +184,14 @@ export default function Home() {
         `}</style>
       </section>
 
-      {partnerships.length > 0 && (
-        <section className="section" style={{ padding: 'var(--spacing-2xl) 0', backgroundColor: '#ffffff' }}>
-          <div className="container">
+      <section className="partnerships-section" style={{ padding: 'var(--spacing-2xl) 0', backgroundColor: '#ffffff', borderBottom: '1px solid var(--color-border)' }}>
+        <div className="container">
+          <SectionTitle
+            title="Kemitraan Perusahaan"
+            subtitle="Dipercaya oleh brand-brand ternama untuk memberikan layanan terbaik"
+            center
+          />
+          {partnerships.length > 0 ? (
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -222,17 +227,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-      )}
-
-      <section className="section section-alt">
-        <div className="container">
-          <SectionTitle
-            title="Kemitraan Perusahaan"
-            subtitle="Dipercaya oleh brand-brand ternama untuk memberikan layanan terbaik"
-          />
-          {partnerships.length === 0 && (
+          ) : (
             <div style={{
               textAlign: 'center',
               padding: 'var(--spacing-3xl) var(--spacing-md)',
@@ -252,8 +247,7 @@ export default function Home() {
 
       <section className="stats-section" style={{
         padding: 'var(--spacing-3xl) 0',
-        backgroundColor: '#ffffff',
-        borderBottom: '1px solid var(--color-border)',
+        backgroundColor: 'var(--color-background-alt, #f9fafb)',
       }}>
         <div className="container">
           <SectionTitle
